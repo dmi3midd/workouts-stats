@@ -111,7 +111,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                             borderRadius: '50%',
                             transition: 'background 0.2s'
                         }}
-                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)')}
+                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'var(--primary-muted)')}
                         onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
                     >
                         <X size={20} />

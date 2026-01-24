@@ -19,7 +19,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
 
     const cellStyle: React.CSSProperties = {
         padding: '0.5rem 0.75rem',
-        border: '1px solid rgba(255, 255, 255, 0.05)',
+        border: '1px solid var(--card-border)',
         fontSize: '0.8125rem',
         whiteSpace: 'nowrap',
         overflow: 'hidden',
@@ -28,7 +28,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
 
     const headerCellStyle: React.CSSProperties = {
         ...cellStyle,
-        backgroundColor: 'rgba(255, 255, 255, 0.03)',
+        backgroundColor: 'rgba(253, 164, 129, 0.05)',
         color: 'var(--slate-400)',
         fontWeight: 600,
         textAlign: 'center',
@@ -41,7 +41,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
 
     const rowNumStyle: React.CSSProperties = {
         ...cellStyle,
-        backgroundColor: 'rgba(255, 255, 255, 0.03)',
+        backgroundColor: 'rgba(253, 164, 129, 0.03)',
         color: 'var(--slate-500)',
         width: '40px',
         textAlign: 'center',
@@ -57,7 +57,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
             alignItems: 'center',
             justifyContent: 'center',
             padding: '1.5rem',
-            backgroundColor: 'rgba(0, 0, 0, 0.85)',
+            backgroundColor: 'rgba(24, 26, 47, 0.85)',
             backdropFilter: 'blur(8px)'
         }} onClick={onClose}>
             <div
@@ -68,7 +68,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                     maxHeight: '90vh',
                     overflowY: 'auto',
                     position: 'relative',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                    border: '1px solid var(--card-border)',
                     padding: '1.5rem'
                 }}
                 onClick={(e) => e.stopPropagation()}
@@ -82,9 +82,9 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <div style={{
                             padding: '0.5rem',
-                            backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                            backgroundColor: 'var(--primary-muted)',
                             borderRadius: '0.5rem',
-                            color: '#22c55e',
+                            color: 'var(--primary)',
                             display: 'flex'
                         }}>
                             <FileSpreadsheet size={20} />
@@ -158,11 +158,11 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                         display: 'flex',
                         gap: '0.75rem',
                         padding: '1rem',
-                        backgroundColor: 'rgba(34, 197, 94, 0.05)',
-                        border: '1px solid rgba(34, 197, 94, 0.1)',
+                        backgroundColor: 'var(--primary-muted)',
+                        border: '1px solid var(--card-border)',
                         borderRadius: '0.75rem'
                     }}>
-                        <Info size={18} style={{ color: '#22c55e', flexShrink: 0 }} />
+                        <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                         <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
                             The "Tonnage, kg" column is <strong>optional</strong>. If it's missing, the app will automatically calculate your total volume from the individual sets.
                         </p>
@@ -171,11 +171,11 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                         display: 'flex',
                         gap: '0.75rem',
                         padding: '1rem',
-                        backgroundColor: 'rgba(34, 197, 94, 0.05)',
-                        border: '1px solid rgba(34, 197, 94, 0.1)',
+                        backgroundColor: 'var(--primary-muted)',
+                        border: '1px solid var(--card-border)',
                         borderRadius: '0.75rem'
                     }}>
-                        <Info size={18} style={{ color: '#22c55e', flexShrink: 0 }} />
+                        <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                         <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
                             If you have workout data in a different format, I recommend using <strong>AI</strong> to convert it into the required format. <strong>Gemini </strong> and <strong>Google Sheets</strong> work best for this.
                         </p>

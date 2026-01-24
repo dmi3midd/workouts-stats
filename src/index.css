@@ -1,15 +1,17 @@
 :root {
-  --background: #020617;
+  --background: #181A2F;
   --foreground: #f8fafc;
-  --card: rgba(255, 255, 255, 0.03);
-  --card-border: rgba(255, 255, 255, 0.1);
-  --primary: #8b5cf6;
-  --primary-hover: #7c3aed;
-  --primary-muted: rgba(139, 92, 246, 0.2);
-  --slate-400: #94a3b8;
-  --slate-500: #64748b;
+  --card: rgba(36, 46, 73, 0.6);
+  --card-border: rgba(55, 65, 92, 0.5);
+  --primary: #FDA481;
+  --primary-hover: #ffbca1;
+  --primary-muted: rgba(253, 164, 129, 0.15);
+  --danger: #B4182D;
+  --accent-maroon: #54162B;
   --radius: 0.75rem;
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --slate-400: #94a3b8;
+  --slate-500: #64748b;
 }
 
 * {

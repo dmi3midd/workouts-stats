@@ -19,7 +19,7 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
             alignItems: 'center',
             justifyContent: 'center',
             padding: '1.5rem',
-            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backgroundColor: 'rgba(24, 26, 47, 0.8)',
             backdropFilter: 'blur(4px)'
         }} onClick={onClose}>
             <div
@@ -96,10 +96,10 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
-                                        backgroundColor: 'rgba(255,255,255,0.05)',
+                                        backgroundColor: 'var(--primary-muted)',
                                         borderRadius: '0.375rem',
                                         fontSize: '0.75rem',
-                                        color: 'var(--slate-400)'
+                                        color: 'var(--primary)'
                                     }}>
                                         {set.setNumber}
                                     </span>

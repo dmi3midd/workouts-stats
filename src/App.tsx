@@ -176,7 +176,7 @@ function App() {
               <BarChartView
                 data={analyticsData}
                 metric={barMetric as any}
-                title={selectedMetric === 'volume' ? 'Volume Distribution' : selectedMetric === 'reps' ? 'Reps Count' : 'Max Weight (PR)'}
+                title={selectedMetric === 'volume' ? 'Volume Distribution' : selectedMetric === 'reps' ? 'Reps Count' : 'AVG Weight'}
               />
               <LineChartView
                 data={filteredData}

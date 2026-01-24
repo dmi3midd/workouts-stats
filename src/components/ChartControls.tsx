@@ -40,7 +40,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                     >
 
                         {exercises.map((ex) => (
-                            <option key={ex} value={ex} style={{ backgroundColor: '#1a1a1a' }}>
+                            <option key={ex} value={ex} style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
                                 {ex}
                             </option>
                         ))}
@@ -52,7 +52,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                     <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>Metric:</span>
                     <div style={{
                         display: 'flex',
-                        backgroundColor: 'rgba(255,255,255,0.05)',
+                        backgroundColor: 'var(--primary-muted)',
                         borderRadius: '0.5rem',
                         padding: '0.25rem'
                     }}>
@@ -69,7 +69,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                                     cursor: 'pointer',
                                     transition: 'all 0.2s',
                                     backgroundColor: selectedMetric === m ? 'var(--primary)' : 'transparent',
-                                    color: selectedMetric === m ? 'white' : 'var(--slate-400)'
+                                    color: selectedMetric === m ? 'var(--background)' : 'var(--slate-400)'
                                 }}
                             >
                                 {m.charAt(0).toUpperCase() + m.slice(1)}
@@ -79,7 +79,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                 </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'rgba(255,255,255,0.2)', fontSize: '0.75rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--slate-400)', opacity: 0.5, fontSize: '0.75rem' }}>
                 <BarChart3 size={14} />
                 <span>Live visualization based on filtered data</span>
             </div>
