@@ -27,6 +27,12 @@ function App() {
   const [selectedSheet, setSelectedSheet] = useState<string | "__all__">("");
 
   const handleFileSelect = async (file: File) => {
+    const MAX_SIZE = 6 * 1024 * 1024; // 6MB
+    if (file.size > MAX_SIZE) {
+      setError(t('uploader.error_size'));
+      return;
+    }
+
     setIsLoading(true);
     setError(null);
     try {
