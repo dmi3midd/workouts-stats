@@ -1,5 +1,6 @@
 import React from 'react';
 import { Layers, MousePointer2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface SheetSelectorProps {
     sheetNames: string[];
@@ -12,6 +13,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
     selectedSheet,
     onSheetChange,
 }) => {
+    const { t } = useTranslation();
     if (sheetNames.length <= 1) return null;
 
     return (
@@ -25,7 +27,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <Layers size={18} style={{ color: 'var(--primary)' }} />
                 <h3 style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--slate-400)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    Select Data Source
+                    {t('sheets.title')}
                 </h3>
             </div>
 
@@ -56,7 +58,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
                     }}
                 >
                     <Layers size={14} />
-                    Merge All Sheets
+                    {t('sheets.merge_all')}
                 </button>
 
                 <div style={{ width: '1px', backgroundColor: 'var(--card-border)', margin: '0.25rem 0' }} />
@@ -83,7 +85,7 @@ export const SheetSelector: React.FC<SheetSelectorProps> = ({
             </div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--slate-500)', fontSize: '0.75rem' }}>
                 <MousePointer2 size={12} />
-                <span>Switch between sheets or combine them for a complete overview</span>
+                <span>{t('sheets.tip')}</span>
             </div>
         </div>
     );

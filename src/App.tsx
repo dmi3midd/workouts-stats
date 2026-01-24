@@ -9,9 +9,12 @@ import { parseExcelFile, readWorkbook } from './utils/parseExcel';
 import { groupByDate, filterByExercise } from './utils/dataTransform';
 import { Dumbbell, Info } from 'lucide-react';
 import { SheetSelector } from './components/SheetSelector';
+import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 import * as XLSX from 'xlsx';
 
 function App() {
+  const { t } = useTranslation();
   const [data, setData] = useState<WorkoutEntry[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -65,7 +68,7 @@ function App() {
         setSelectedExercise(uniqueExercises[0]);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to parse sheet');
+      setError(t('uploader.error_parse'));
     } finally {
       setIsLoading(false);
     }
@@ -127,8 +130,8 @@ function App() {
               <Dumbbell style={{ color: 'white' }} size={24} />
             </div>
             <div>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.025em' }}>WorkoutStats</h1>
-              <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Analytics</p>
+              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.025em' }}>{t('app.title')}</h1>
+              <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t('app.subtitle')}</p>
             </div>
           </div>
         </div>
@@ -155,10 +158,10 @@ function App() {
                 color: 'white',
                 fontStyle: 'normal'
               }}>
-                Visualize Your Gains.
+                {t('app.hero_title')}
               </h2>
               <p style={{ fontSize: '1.25rem', color: 'var(--slate-400)', fontWeight: 300, lineHeight: 1.6 }}>
-                Upload your training logs in Excel format and transform raw data into powerful insights. No servers, no sign-ups, just pure performance tracking.
+                {t('app.hero_subtitle')}
               </p>
             </div>
             <FileUploader
@@ -184,8 +187,8 @@ function App() {
                 }
               `}</style>
               <div>
-                <h2 style={{ fontSize: '1.875rem', fontWeight: 700, color: 'white', marginBottom: '0.5rem' }}>Training Performance</h2>
-                <p style={{ color: 'var(--slate-400)' }}>Deep dive into your workout metrics and progress.</p>
+                <h2 style={{ fontSize: '1.875rem', fontWeight: 700, color: 'white', marginBottom: '0.5rem' }}>{t('app.performance_title')}</h2>
+                <p style={{ color: 'var(--slate-400)' }}>{t('app.performance_subtitle')}</p>
               </div>
               <FileUploader
                 onFileSelect={handleFileSelect}
@@ -218,32 +221,32 @@ function App() {
               <BarChartView
                 data={analyticsData}
                 metric={barMetric as any}
-                title={selectedMetric === 'volume' ? 'Volume Distribution' : selectedMetric === 'reps' ? 'Reps Count' : 'AVG Weight'}
+                title={selectedMetric === 'volume' ? t('metrics.volume_dist') : selectedMetric === 'reps' ? t('metrics.reps_count') : t('metrics.avg_weight')}
               />
               <LineChartView
                 data={filteredData}
                 metric={selectedMetric}
-                title={`${selectedExercise === 'All' ? 'Overall' : selectedExercise} Progress`}
+                title={`${selectedExercise === 'All' ? t('controls.overall') : selectedExercise} ${t('controls.progress')}`}
               />
             </div>
 
             <section className="glass-card" style={{ marginTop: '3rem', overflow: 'hidden', padding: 0 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 1.5rem 1rem' }}>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>Data Preview</h3>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>{t('preview.title')}</h3>
                 <div style={{ color: 'var(--slate-500)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                  <Info size={14} /> Click on any row to view set details
+                  <Info size={14} /> {t('preview.tip')}
                 </div>
               </div>
               <div style={{ overflowX: 'auto' }}>
                 <table>
                   <thead>
                     <tr>
-                      <th>Date</th>
-                      <th>Exercise</th>
-                      <th>Sets</th>
-                      <th>Reps</th>
-                      <th>Weight (kg)</th>
-                      <th>Volume</th>
+                      <th>{t('preview.headers.date')}</th>
+                      <th>{t('preview.headers.exercise')}</th>
+                      <th>{t('preview.headers.sets')}</th>
+                      <th>{t('preview.headers.reps')}</th>
+                      <th>{t('preview.headers.weight')}</th>
+                      <th>{t('preview.headers.volume')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -269,13 +272,15 @@ function App() {
       </main>
 
       <footer className="container" style={{ padding: '3rem 0', marginTop: '3rem', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
-        <p style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontStyle: 'italic' }}>Built for performance athletes. 100% Client-side. No trackers.</p>
+        <p style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontStyle: 'italic' }}>{t('app.footer')}</p>
       </footer>
 
       <WorkoutDetailModal
         workout={selectedWorkoutForDetail}
         onClose={() => setSelectedWorkoutForDetail(null)}
       />
+
+      <LanguageSwitcher />
     </div>
   );
 }

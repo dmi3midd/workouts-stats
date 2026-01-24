@@ -1,5 +1,6 @@
 import React from 'react';
 import { X, Info, FileSpreadsheet } from 'lucide-react';
+import { useTranslation, Trans } from 'react-i18next';
 
 interface InfoModalProps {
     isOpen: boolean;
@@ -7,10 +8,19 @@ interface InfoModalProps {
 }
 
 export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
+    const { t } = useTranslation();
     if (!isOpen) return null;
 
     const columns = ['A', 'B', 'C', 'D', 'E', 'F', 'G'];
-    const headers = ['Date', 'Exercise', 'Set 1, kg', 'Set 1, reps', 'Set 2, kg', 'Set 2, reps', 'Tonnage, kg (opt)'];
+    const headers = [
+        t('preview.headers.date'),
+        t('preview.headers.exercise'),
+        `${t('modals.detail.set')} 1, ${t('modals.detail.kg')}`,
+        `${t('modals.detail.set')} 1, ${t('modals.detail.reps')}`,
+        `${t('modals.detail.set')} 2, ${t('modals.detail.kg')}`,
+        `${t('modals.detail.set')} 2, ${t('modals.detail.reps')}`,
+        t('modals.info.tonnage_opt')
+    ];
     const mockData = [
         ['2024-01-20', 'Bench Press', '80', '10', '80', '8', '1440'],
         ['2024-01-20', 'Squats', '100', '12', '100', '10', '2200'],
@@ -91,10 +101,10 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                         </div>
                         <div>
                             <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white' }}>
-                                Workout Sheet Format
+                                {t('modals.info.title')}
                             </h2>
                             <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>
-                                Use the first sheet with this structure
+                                {t('sheets.tip')}
                             </p>
                         </div>
                     </div>
@@ -164,7 +174,7 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                     }}>
                         <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                         <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
-                            The "Tonnage, kg" column is <strong>optional</strong>. If it's missing, the app will automatically calculate your total volume from the individual sets.
+                            <Trans i18nKey="modals.info.tonnage_tip" />
                         </p>
                     </div>
                     <div style={{
@@ -177,16 +187,15 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                     }}>
                         <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                         <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
-                            If you have workout data in a different format, I recommend using <strong>AI</strong> to convert it into the required format. <strong>Gemini </strong> and <strong>Google Sheets</strong> work best for this.
+                            <Trans i18nKey="modals.info.ai_tip" />
                         </p>
                     </div>
 
                     <button onClick={onClose} className="btn-primary" style={{ width: '100%' }}>
-                        Got it
+                        {t('modals.info.got_it')}
                     </button>
                 </div>
             </div>
         </div>
     );
 };
-

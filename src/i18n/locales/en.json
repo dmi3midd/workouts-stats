@@ -1,0 +1,66 @@
+{
+    "app": {
+        "title": "WorkoutStats",
+        "subtitle": "Analytics & Visualization",
+        "hero_title": "Visualize Your Gains",
+        "hero_subtitle": "Upload your training logs in Excel format and transform raw data into easy-to-understand charts. No sign-ups, just gains visualization.",
+        "footer": "Built for performance athletes. 100% Client-side. No trackers.",
+        "performance_title": "Training Performance",
+        "performance_subtitle": "Deep dive into your workout metrics and progress."
+    },
+    "controls": {
+        "exercise": "Exercise:",
+        "metric": "Metric:",
+        "all": "All",
+        "overall": "Overall",
+        "progress": "Progress",
+        "live_viz": "Live visualization based on filtered data"
+    },
+    "metrics": {
+        "volume": "Volume",
+        "weight": "Weight",
+        "reps": "Reps",
+        "avg_weight": "AVG Weight",
+        "volume_dist": "Volume Distribution",
+        "reps_count": "Reps Count"
+    },
+    "uploader": {
+        "how_to": "How to format your Excel?",
+        "success": "Successfully loaded",
+        "drop_here": "Drop your workout Excel file here",
+        "browse": "or click to browse from your computer",
+        "error_parse": "Failed to parse Excel file. Please ensure the format is correct."
+    },
+    "sheets": {
+        "title": "Select Data Source",
+        "merge_all": "Merge All Sheets",
+        "tip": "Switch between sheets or combine them for a complete overview"
+    },
+    "preview": {
+        "title": "Data Preview",
+        "tip": "Click on any row to view set details",
+        "headers": {
+            "date": "Date",
+            "exercise": "Exercise",
+            "sets": "Sets",
+            "reps": "Reps",
+            "weight": "Weight (kg)",
+            "volume": "Volume"
+        }
+    },
+    "modals": {
+        "info": {
+            "title": "Excel Formatting Guide",
+            "tonnage_opt": "Tonnage, kg (opt)",
+            "tonnage_tip": "The \"Tonnage, kg\" column is <strong>optional</strong>. If it's missing, the app will automatically calculate your total volume from the individual sets.",
+            "ai_tip": "If you have workout data in a different format, I recommend using <strong>AI</strong> to convert it into the required format. <strong>Gemini</strong> and <strong>Google Sheets</strong> work best for this.",
+            "got_it": "Got it"
+        },
+        "detail": {
+            "workout_details": "Workout Details",
+            "set": "Set",
+            "kg": "kg",
+            "reps": "reps"
+        }
+    }
+}

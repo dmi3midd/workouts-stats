@@ -1,6 +1,7 @@
 import React from 'react';
-import { X, Calendar, Weight, Hash } from 'lucide-react';
+import { X } from 'lucide-react';
 import type { WorkoutEntry } from '../types/workout';
+import { useTranslation } from 'react-i18next';
 
 interface WorkoutDetailModalProps {
     workout: WorkoutEntry | null;
@@ -8,6 +9,7 @@ interface WorkoutDetailModalProps {
 }
 
 export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout, onClose }) => {
+    const { t } = useTranslation();
     if (!workout) return null;
 
     return (
@@ -40,14 +42,10 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
                     marginBottom: '2rem'
                 }}>
                     <div>
-                        <h2 style={{ fontSize: '1.5rem', fontWeight: 700, color: 'white', marginBottom: '0.5rem' }}>
-                            {workout.exercise}
+                        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white' }}>
+                            {t('modals.detail.workout_details')}
                         </h2>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--slate-400)', fontSize: '0.875rem' }}>
-                            <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
-                                <Calendar size={14} /> {workout.date}
-                            </span>
-                        </div>
+                        <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>{workout.date}</p>
                     </div>
                     <button onClick={onClose} style={{
                         background: 'none',
@@ -101,16 +99,16 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
                                         fontSize: '0.75rem',
                                         color: 'var(--primary)'
                                     }}>
-                                        {set.setNumber}
+                                        {t('modals.detail.set')} {set.setNumber}
                                     </span>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                        <Weight size={14} style={{ color: 'var(--primary)' }} />
-                                        <span style={{ fontWeight: 500 }}>{set.weight} kg</span>
+                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
+                                        <span style={{ fontSize: '1.125rem', fontWeight: 600, color: 'white' }}>{set.weight}</span>
+                                        <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{t('modals.detail.kg')}</span>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                                    <Hash size={14} style={{ color: 'var(--slate-400)' }} />
-                                    <span>{set.reps} reps</span>
+                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
+                                    <span style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--primary)' }}>{set.reps}</span>
+                                    <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{t('modals.detail.reps')}</span>
                                 </div>
                             </div>
                         ))

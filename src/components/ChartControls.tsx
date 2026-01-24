@@ -1,5 +1,6 @@
 import React from 'react';
 import { Filter, BarChart3, TrendingUp } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface ChartControlsProps {
     exercises: string[];
@@ -16,6 +17,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
     selectedMetric,
     onMetricChange,
 }) => {
+    const { t } = useTranslation();
     return (
         <div className="glass-card" style={{
             display: 'flex',
@@ -28,7 +30,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <Filter size={18} style={{ color: 'var(--primary)' }} />
-                    <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>Exercise:</span>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>{t('controls.exercise')}</span>
                     <select
                         value={selectedExercise}
                         onChange={(e) => onExerciseChange(e.target.value)}
@@ -41,7 +43,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
 
                         {exercises.map((ex) => (
                             <option key={ex} value={ex} style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
-                                {ex}
+                                {ex === 'All' ? t('controls.all') : ex}
                             </option>
                         ))}
                     </select>
@@ -49,7 +51,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                     <TrendingUp size={18} style={{ color: 'var(--primary)' }} />
-                    <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>Metric:</span>
+                    <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>{t('controls.metric')}</span>
                     <div style={{
                         display: 'flex',
                         backgroundColor: 'var(--primary-muted)',
@@ -72,7 +74,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                                     color: selectedMetric === m ? 'var(--background)' : 'var(--slate-400)'
                                 }}
                             >
-                                {m.charAt(0).toUpperCase() + m.slice(1)}
+                                {t(`metrics.${m}`)}
                             </button>
                         ))}
                     </div>
@@ -81,7 +83,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
 
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--slate-400)', opacity: 0.5, fontSize: '0.75rem' }}>
                 <BarChart3 size={14} />
-                <span>Live visualization based on filtered data</span>
+                <span>{t('controls.live_viz')}</span>
             </div>
         </div>
     );

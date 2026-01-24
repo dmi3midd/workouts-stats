@@ -10,6 +10,7 @@ import {
     Cell,
 } from 'recharts';
 import type { AnalyticsData } from '../types/workout';
+import { useTranslation } from 'react-i18next';
 
 interface BarChartViewProps {
     data: AnalyticsData[];
@@ -18,6 +19,7 @@ interface BarChartViewProps {
 }
 
 export const BarChartView: React.FC<BarChartViewProps> = ({ data, metric, title }) => {
+    const { t } = useTranslation();
     return (
         <div className="chart-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--foreground)' }}>{title}</h3>
@@ -53,6 +55,13 @@ export const BarChartView: React.FC<BarChartViewProps> = ({ data, metric, title 
                                 color: 'var(--foreground)',
                             }}
                             cursor={{ fill: 'var(--primary-muted)' }}
+                            formatter={(value: any, name: string | undefined) => [
+                                value,
+                                name === 'totalVolume' ? t('metrics.volume') :
+                                    name === 'totalReps' ? t('metrics.reps') :
+                                        name === 'maxWeight' ? t('metrics.weight') :
+                                            name || ''
+                            ]}
                         />
                         <Bar dataKey={metric} radius={[4, 4, 0, 0]}>
                             {data.map((_, index) => (

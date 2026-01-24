@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { Upload, FileSpreadsheet, X, HelpCircle } from 'lucide-react';
 import { InfoModal } from './InfoModal';
+import { useTranslation } from 'react-i18next';
 
 interface FileUploaderProps {
     onFileSelect: (file: File) => void;
@@ -17,6 +18,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     onClear,
     fileName,
 }) => {
+    const { t } = useTranslation();
     const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
 
     const handleDrop = useCallback(
@@ -78,7 +80,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                     onMouseOut={(e) => (e.currentTarget.style.color = 'var(--slate-400)')}
                 >
                     <HelpCircle size={18} />
-                    <span>How to format your Excel?</span>
+                    <span>{t('uploader.how_to')}</span>
                 </button>
             </div>
 
@@ -96,7 +98,7 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                         </div>
                         <div>
                             <p style={{ fontWeight: 500 }}>{fileName}</p>
-                            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>Successfully loaded</p>
+                            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>{t('uploader.success')}</p>
                         </div>
                     </div>
                     <button
@@ -149,10 +151,10 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                     </div>
                     <div style={{ textAlign: 'center' }}>
                         <p style={{ fontSize: '1.125rem', fontWeight: 500 }}>
-                            Drop your workout Excel file here
+                            {t('uploader.drop_here')}
                         </p>
                         <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>
-                            or click to browse from your computer
+                            {t('uploader.browse')}
                         </p>
                     </div>
                 </div>

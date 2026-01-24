@@ -9,6 +9,7 @@ import {
     AreaChart,
 } from 'recharts';
 import type { WorkoutEntry } from '../types/workout';
+import { useTranslation } from 'react-i18next';
 
 interface LineChartViewProps {
     data: WorkoutEntry[];
@@ -17,6 +18,7 @@ interface LineChartViewProps {
 }
 
 export const LineChartView: React.FC<LineChartViewProps> = ({ data, metric, title }) => {
+    const { t } = useTranslation();
     return (
         <div className="chart-container" style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             <h3 style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--foreground)' }}>{title}</h3>
@@ -51,6 +53,13 @@ export const LineChartView: React.FC<LineChartViewProps> = ({ data, metric, titl
                                 borderRadius: '8px',
                                 color: 'var(--foreground)',
                             }}
+                            formatter={(value: any, name: string | undefined) => [
+                                value,
+                                name === 'weight' ? t('metrics.weight') :
+                                    name === 'volume' ? t('metrics.volume') :
+                                        name === 'reps' ? t('metrics.reps') :
+                                            name || ''
+                            ]}
                         />
                         <Area
                             type="monotone"
