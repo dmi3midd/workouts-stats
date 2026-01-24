@@ -67,7 +67,11 @@ export const parseExcelFile = async (file: File): Promise<WorkoutEntry[]> => {
                     const avgWeightFromSets = weightsFound > 0 ? totalWeight / weightsFound : 0;
                     const weight = avgWeightFromSets || Number(row.Weight || row.weight || row['Weight (kg)'] || 0);
 
-                    const volume = Number(row['Tonnage, kg'] || row.volume || (sets * reps * weight) || 0);
+                    // Calculate volume: prefer 'Tonnage, kg', then sum of weight * reps for all sets, then fallback
+                    const explicitVolume = Number(row['Tonnage, kg'] || row.volume);
+                    const calculatedVolume = details.reduce((sum, set) => sum + (set.weight * set.reps), 0);
+                    const volume = !isNaN(explicitVolume) && explicitVolume > 0 ? explicitVolume :
+                        (calculatedVolume > 0 ? calculatedVolume : (sets * reps * weight));
 
                     return {
                         date: date instanceof Date ? new Date(date.getTime() + 86400000).toISOString().split('T')[0] :

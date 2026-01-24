@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
-import { Upload, FileSpreadsheet, X } from 'lucide-react';
+import React, { useCallback, useState } from 'react';
+import { Upload, FileSpreadsheet, X, HelpCircle } from 'lucide-react';
+import { InfoModal } from './InfoModal';
 
 interface FileUploaderProps {
     onFileSelect: (file: File) => void;
@@ -16,6 +17,8 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
     onClear,
     fileName,
 }) => {
+    const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
+
     const handleDrop = useCallback(
         (e: React.DragEvent) => {
             e.preventDefault();
@@ -55,6 +58,30 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
 
     return (
         <div style={containerStyle}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+                <button
+                    onClick={() => setIsInfoModalOpen(true)}
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--slate-400)',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.875rem',
+                        transition: 'color 0.2s',
+                        padding: '0.5rem',
+                        borderRadius: '0.5rem'
+                    }}
+                    onMouseOver={(e) => (e.currentTarget.style.color = 'var(--primary)')}
+                    onMouseOut={(e) => (e.currentTarget.style.color = 'var(--slate-400)')}
+                >
+                    <HelpCircle size={18} />
+                    <span>How to format your Excel?</span>
+                </button>
+            </div>
+
             {fileName ? (
                 <div className="glass-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
@@ -135,6 +162,11 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                     {error}
                 </p>
             )}
+
+            <InfoModal
+                isOpen={isInfoModalOpen}
+                onClose={() => setIsInfoModalOpen(false)}
+            />
         </div>
     );
 };
