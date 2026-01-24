@@ -5,9 +5,11 @@ import { BarChartView } from './components/BarChartView';
 import { LineChartView } from './components/LineChartView';
 import { WorkoutDetailModal } from './components/WorkoutDetailModal';
 import type { WorkoutEntry } from './types/workout';
-import { parseExcelFile } from './utils/parseExcel';
+import { parseExcelFile, readWorkbook } from './utils/parseExcel';
 import { groupByDate, filterByExercise } from './utils/dataTransform';
 import { Dumbbell, Info } from 'lucide-react';
+import { SheetSelector } from './components/SheetSelector';
+import * as XLSX from 'xlsx';
 
 function App() {
   const [data, setData] = useState<WorkoutEntry[]>([]);
@@ -17,14 +19,26 @@ function App() {
   const [selectedExercise, setSelectedExercise] = useState('');
   const [selectedMetric, setSelectedMetric] = useState<'weight' | 'volume' | 'reps'>('volume');
   const [selectedWorkoutForDetail, setSelectedWorkoutForDetail] = useState<WorkoutEntry | null>(null);
+  const [workbook, setWorkbook] = useState<XLSX.WorkBook | null>(null);
+  const [sheetNames, setSheetNames] = useState<string[]>([]);
+  const [selectedSheet, setSelectedSheet] = useState<string | "__all__">("");
 
   const handleFileSelect = async (file: File) => {
     setIsLoading(true);
     setError(null);
     try {
-      const parsedData = await parseExcelFile(file);
-      setData(parsedData);
+      const wb = await readWorkbook(file);
+      const names = wb.SheetNames;
+      setWorkbook(wb);
+      setSheetNames(names);
       setFileName(file.name);
+
+      // If multiple sheets, we don't parse immediately or we parse the first one
+      const defaultSheet = names[0];
+      setSelectedSheet(defaultSheet);
+
+      const parsedData = await parseExcelFile(wb, defaultSheet);
+      setData(parsedData);
 
       // Auto-select first exercise
       const uniqueExercises = Array.from(new Set(parsedData.map(d => d.exercise)));
@@ -38,8 +52,30 @@ function App() {
     }
   };
 
+  const handleSheetChange = async (sheetName: string | "__all__") => {
+    if (!workbook) return;
+    setIsLoading(true);
+    try {
+      setSelectedSheet(sheetName);
+      const parsedData = await parseExcelFile(workbook, sheetName);
+      setData(parsedData);
+
+      const uniqueExercises = Array.from(new Set(parsedData.map(d => d.exercise)));
+      if (uniqueExercises.length > 0 && !uniqueExercises.includes(selectedExercise)) {
+        setSelectedExercise(uniqueExercises[0]);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to parse sheet');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const clearData = () => {
     setData([]);
+    setWorkbook(null);
+    setSheetNames([]);
+    setSelectedSheet("");
     setFileName(null);
     setSelectedExercise('');
   };
@@ -159,6 +195,12 @@ function App() {
                 fileName={fileName}
               />
             </div>
+
+            <SheetSelector
+              sheetNames={sheetNames}
+              selectedSheet={selectedSheet}
+              onSheetChange={handleSheetChange}
+            />
 
             <ChartControls
               exercises={exercises}
