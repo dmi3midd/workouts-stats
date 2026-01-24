@@ -117,7 +117,7 @@ function App() {
                 letterSpacing: '-0.025em',
                 marginBottom: '1rem',
                 color: 'white',
-                fontStyle: 'italic'
+                fontStyle: 'normal'
               }}>
                 Visualize Your Gains.
               </h2>

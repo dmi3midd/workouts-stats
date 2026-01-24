@@ -1,3 +1,31 @@
+@font-face {
+  font-family: 'Google Sans';
+  src: url('./assets/Google_Sans/static/GoogleSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('./assets/Google_Sans/static/GoogleSans-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('./assets/Google_Sans/static/GoogleSans-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Google Sans';
+  src: url('./assets/Google_Sans/static/GoogleSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 :root {
   --background: #181A2F;
   --foreground: #f8fafc;
@@ -9,7 +37,7 @@
   --danger: #B4182D;
   --accent-maroon: #54162B;
   --radius: 0.75rem;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Google Sans', 'Inter', system-ui, -apple-system, sans-serif;
   --slate-400: #94a3b8;
   --slate-500: #64748b;
 }
