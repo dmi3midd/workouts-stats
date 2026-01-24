@@ -167,6 +167,19 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                             The "Tonnage, kg" column is <strong>optional</strong>. If it's missing, the app will automatically calculate your total volume from the individual sets.
                         </p>
                     </div>
+                    <div style={{
+                        display: 'flex',
+                        gap: '0.75rem',
+                        padding: '1rem',
+                        backgroundColor: 'rgba(34, 197, 94, 0.05)',
+                        border: '1px solid rgba(34, 197, 94, 0.1)',
+                        borderRadius: '0.75rem'
+                    }}>
+                        <Info size={18} style={{ color: '#22c55e', flexShrink: 0 }} />
+                        <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
+                            If you have workout data in a different format, I recommend using <strong>AI</strong> to convert it into the required format. <strong>Gemini </strong> and <strong>Google Sheets</strong> work best for this.
+                        </p>
+                    </div>
 
                     <button onClick={onClose} className="btn-primary" style={{ width: '100%' }}>
                         Got it
