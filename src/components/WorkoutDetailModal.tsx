@@ -89,7 +89,7 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
                             }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                                     <span style={{
-                                        width: '1.5rem',
+                                        width: '2.5rem',
                                         height: '1.5rem',
                                         display: 'flex',
                                         alignItems: 'center',
