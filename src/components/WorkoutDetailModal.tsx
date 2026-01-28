@@ -13,114 +13,63 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
     if (!workout) return null;
 
     return (
-        <div style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 100,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1.5rem',
-            backgroundColor: 'rgba(24, 26, 47, 0.8)',
-            backdropFilter: 'blur(4px)'
-        }} onClick={onClose}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#181A2f]/80 backdrop-blur-sm" onClick={onClose}>
             <div
-                className="glass-card animate-fade-in"
-                style={{
-                    width: '100%',
-                    maxWidth: '500px',
-                    maxHeight: '90vh',
-                    overflowY: 'auto',
-                    position: 'relative'
-                }}
+                className="glass-card animate-fade-in w-full max-w-[500px] max-h-[90vh] overflow-y-auto relative"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    marginBottom: '2rem'
-                }}>
+                <div className="flex justify-between items-start mb-8">
                     <div>
-                        <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white' }}>
+                        <h2 className="text-xl font-bold text-white">
                             {t('modals.detail.workout_details')}
                         </h2>
-                        <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>{workout.date}</p>
+                        <p className="text-sm text-slate-400">{workout.date}</p>
                     </div>
-                    <button onClick={onClose} style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--slate-400)',
-                        cursor: 'pointer',
-                        padding: '0.5rem',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        transition: 'background 0.2s'
-                    }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'}
-                        onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                    >
+                    <button onClick={onClose} className="bg-transparent border-none text-slate-400 cursor-pointer p-2 flex rounded-full transition-colors hover:bg-white/5">
                         <X size={20} />
                     </button>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
-                    <div className="glass" style={{ padding: '1rem', textAlign: 'center' }}>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>Total Volume</p>
-                        <p style={{ fontSize: '1.25rem', fontWeight: 700, color: 'var(--primary)' }}>{workout.volume} kg</p>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                    <div className="glass p-4 text-center">
+                        <p className="text-[0.75rem] text-slate-400 uppercase mb-1">Total Volume</p>
+                        <p className="text-xl font-bold text-primary">{workout.volume} kg</p>
                     </div>
-                    <div className="glass" style={{ padding: '1rem', textAlign: 'center' }}>
-                        <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', textTransform: 'uppercase', marginBottom: '0.25rem' }}>Avg Weight</p>
-                        <p style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white' }}>{workout.weight.toFixed(1)} kg</p>
+                    <div className="glass p-4 text-center">
+                        <p className="text-[0.75rem] text-slate-400 uppercase mb-1">Avg Weight</p>
+                        <p className="text-xl font-bold text-white">{workout.weight.toFixed(1)} kg</p>
                     </div>
                 </div>
 
-                <h3 style={{ fontSize: '1rem', fontWeight: 600, marginBottom: '1rem', color: 'var(--slate-400)' }}>Set Breakdown</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <h3 className="text-base font-semibold mb-4 text-slate-400">Set Breakdown</h3>
+                <div className="flex flex-col gap-3">
                     {workout.details.length > 0 ? (
                         workout.details.map((set) => (
-                            <div key={set.setNumber} style={{
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'space-between',
-                                padding: '0.75rem 1rem',
-                                backgroundColor: 'rgba(255,255,255,0.02)',
-                                borderRadius: '0.5rem',
-                                border: '1px solid rgba(255,255,255,0.05)'
-                            }}>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                                    <span style={{
-                                        width: '2.5rem',
-                                        height: '1.5rem',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        backgroundColor: 'var(--primary-muted)',
-                                        borderRadius: '0.375rem',
-                                        fontSize: '0.75rem',
-                                        color: 'var(--primary)'
-                                    }}>
+                            <div key={set.setNumber} className="flex items-center justify-between p-3 px-4 bg-white/2 rounded-lg border border-white/5">
+                                <div className="flex items-center gap-4">
+                                    <span className="w-10 h-6 flex items-center justify-center bg-primary-muted rounded-md text-[0.75rem] text-primary">
                                         {t('modals.detail.set')} {set.setNumber}
                                     </span>
-                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
-                                        <span style={{ fontSize: '1.125rem', fontWeight: 600, color: 'white' }}>{set.weight}</span>
-                                        <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{t('modals.detail.kg')}</span>
+                                    <div className="flex items-baseline gap-1">
+                                        <span className="text-lg font-semibold text-white">{set.weight}</span>
+                                        <span className="text-[0.75rem] text-slate-500">{t('modals.detail.kg')}</span>
                                     </div>
                                 </div>
-                                <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.25rem' }}>
-                                    <span style={{ fontSize: '1.125rem', fontWeight: 600, color: 'var(--primary)' }}>{set.reps}</span>
-                                    <span style={{ fontSize: '0.75rem', color: 'var(--slate-500)' }}>{t('modals.detail.reps')}</span>
+                                <div className="flex items-baseline gap-1">
+                                    <span className="text-lg font-semibold text-primary">{set.reps}</span>
+                                    <span className="text-[0.75rem] text-slate-500">{t('modals.detail.reps')}</span>
                                 </div>
                             </div>
                         ))
                     ) : (
-                        <p style={{ color: 'var(--slate-500)', fontSize: '0.875rem', fontStyle: 'italic' }}>
+                        <p className="text-slate-500 text-sm italic">
                             No detailed set data available for this workout.
                         </p>
                     )}
                 </div>
 
-                <div style={{ marginTop: '2rem', textAlign: 'center' }}>
-                    <button onClick={onClose} className="btn-primary" style={{ width: '100%' }}>
+                <div className="mt-8 text-center">
+                    <button onClick={onClose} className="btn-primary w-full">
                         Done
                     </button>
                 </div>

@@ -37,47 +37,12 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
         if (file) onFileSelect(file);
     };
 
-    const containerStyle: React.CSSProperties = {
-        width: '100%',
-        maxWidth: '672px',
-        margin: '0 auto',
-    };
-
-    const uploadAreaStyle: React.CSSProperties = {
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '1rem',
-        padding: '2rem 1rem',
-        cursor: 'pointer',
-        border: '2px dashed var(--card-border)',
-        transition: 'border-color 0.2s',
-        opacity: isLoading ? 0.5 : 1,
-        pointerEvents: isLoading ? 'none' : 'auto',
-    };
-
     return (
-        <div style={containerStyle}>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1rem' }}>
+        <div className="w-full max-w-2xl mx-auto">
+            <div className="flex justify-end mb-4">
                 <button
                     onClick={() => setIsInfoModalOpen(true)}
-                    style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--slate-400)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '0.875rem',
-                        transition: 'color 0.2s',
-                        padding: '0.5rem',
-                        borderRadius: '0.5rem'
-                    }}
-                    onMouseOver={(e) => (e.currentTarget.style.color = 'var(--primary)')}
-                    onMouseOut={(e) => (e.currentTarget.style.color = 'var(--slate-400)')}
+                    className="bg-transparent border-none text-slate-400 cursor-pointer flex items-center gap-2 text-sm transition-colors p-2 rounded-lg hover:text-primary"
                 >
                     <HelpCircle size={18} />
                     <span>{t('uploader.how_to')}</span>
@@ -85,36 +50,19 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
             </div>
 
             {fileName ? (
-                <div className="glass-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                        <div style={{
-                            padding: '0.75rem',
-                            backgroundColor: 'var(--primary-muted)',
-                            borderRadius: '0.5rem',
-                            color: 'var(--primary)',
-                            display: 'flex'
-                        }}>
+                <div className="glass-card flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                        <div className="p-3 bg-primary-muted rounded-lg text-primary flex">
                             <FileSpreadsheet size={24} />
                         </div>
                         <div>
-                            <p style={{ fontWeight: 500 }}>{fileName}</p>
-                            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>{t('uploader.success')}</p>
+                            <p className="font-medium text-white">{fileName}</p>
+                            <p className="text-sm text-slate-400">{t('uploader.success')}</p>
                         </div>
                     </div>
                     <button
                         onClick={onClear}
-                        style={{
-                            background: 'none',
-                            border: 'none',
-                            color: 'var(--slate-400)',
-                            cursor: 'pointer',
-                            padding: '0.5rem',
-                            display: 'flex',
-                            borderRadius: '50%',
-                            transition: 'background 0.2s'
-                        }}
-                        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = 'var(--primary-muted)')}
-                        onMouseOut={(e) => (e.currentTarget.style.backgroundColor = 'transparent')}
+                        className="bg-transparent border-none text-slate-400 cursor-pointer p-2 flex rounded-full transition-colors hover:bg-primary-muted"
                     >
                         <X size={20} />
                     </button>
@@ -123,44 +71,30 @@ export const FileUploader: React.FC<FileUploaderProps> = ({
                 <div
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={handleDrop}
-                    className="glass-card"
-                    style={uploadAreaStyle}
-                    onMouseOver={(e) => (e.currentTarget.style.borderColor = 'var(--primary)')}
-                    onMouseOut={(e) => (e.currentTarget.style.borderColor = 'var(--card-border)')}
+                    className={`glass-card relative flex flex-col items-center justify-center gap-4 py-8 px-4 border-2 border-dashed border-card-border transition-colors hover:border-primary ${isLoading ? 'opacity-50 pointer-events-none' : 'opacity-100 cursor-pointer'
+                        }`}
                 >
                     <input
                         type="file"
                         accept=".xlsx, .xls"
                         onChange={handleChange}
-                        style={{
-                            position: 'absolute',
-                            inset: 0,
-                            opacity: 0,
-                            cursor: 'pointer',
-                            width: '100%'
-                        }}
+                        className="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
                     />
-                    <div style={{
-                        padding: '1rem',
-                        backgroundColor: 'var(--primary-muted)',
-                        borderRadius: '50%',
-                        color: 'var(--primary)',
-                        display: 'flex'
-                    }}>
+                    <div className="p-4 bg-primary-muted rounded-full text-primary flex">
                         <Upload size={32} />
                     </div>
-                    <div style={{ textAlign: 'center' }}>
-                        <p style={{ fontSize: '1.125rem', fontWeight: 500 }}>
+                    <div className="text-center">
+                        <p className="text-lg font-medium text-white">
                             {t('uploader.drop_here')}
                         </p>
-                        <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>
+                        <p className="text-sm text-slate-400">
                             {t('uploader.browse')}
                         </p>
                     </div>
                 </div>
             )}
             {error && (
-                <p style={{ marginTop: '1rem', fontSize: '0.875rem', color: '#f87171', textAlign: 'center' }}>
+                <p className="mt-4 text-sm text-red-400 text-center">
                     {error}
                 </p>
             )}

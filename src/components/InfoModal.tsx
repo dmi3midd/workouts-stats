@@ -27,130 +27,53 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
         ['2024-01-22', 'Deadlift', '140', '5', '140', '5', '1400'],
     ];
 
-    const cellStyle: React.CSSProperties = {
-        padding: '0.5rem 0.75rem',
-        border: '1px solid var(--card-border)',
-        fontSize: '0.8125rem',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-    };
-
-    const headerCellStyle: React.CSSProperties = {
-        ...cellStyle,
-        backgroundColor: 'rgba(253, 164, 129, 0.05)',
-        color: 'var(--slate-400)',
-        fontWeight: 600,
-        textAlign: 'center',
-    };
-
-    const dataCellStyle: React.CSSProperties = {
-        ...cellStyle,
-        color: 'var(--slate-300)',
-    };
-
-    const rowNumStyle: React.CSSProperties = {
-        ...cellStyle,
-        backgroundColor: 'rgba(253, 164, 129, 0.03)',
-        color: 'var(--slate-500)',
-        width: '40px',
-        textAlign: 'center',
-        fontWeight: 500,
-    };
-
     return (
-        <div style={{
-            position: 'fixed',
-            inset: 0,
-            zIndex: 100,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: '1.5rem',
-            backgroundColor: 'rgba(24, 26, 47, 0.85)',
-            backdropFilter: 'blur(8px)'
-        }} onClick={onClose}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#181A2f]/85 backdrop-blur-md" onClick={onClose}>
             <div
-                className="glass-card animate-fade-in"
-                style={{
-                    width: '100%',
-                    maxWidth: '800px',
-                    maxHeight: '90vh',
-                    overflowY: 'auto',
-                    position: 'relative',
-                    border: '1px solid var(--card-border)',
-                    padding: '1.5rem'
-                }}
+                className="glass-card animate-fade-in w-full max-w-[800px] max-h-[90vh] overflow-y-auto relative border border-card-border p-6"
                 onClick={(e) => e.stopPropagation()}
             >
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '1.5rem'
-                }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                        <div style={{
-                            padding: '0.5rem',
-                            backgroundColor: 'var(--primary-muted)',
-                            borderRadius: '0.5rem',
-                            color: 'var(--primary)',
-                            display: 'flex'
-                        }}>
+                <div className="flex justify-between items-center mb-6">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 bg-primary-muted rounded-lg text-primary flex">
                             <FileSpreadsheet size={20} />
                         </div>
                         <div>
-                            <h2 style={{ fontSize: '1.25rem', fontWeight: 700, color: 'white' }}>
+                            <h2 className="text-xl font-bold text-white">
                                 {t('modals.info.title')}
                             </h2>
-                            <p style={{ fontSize: '0.875rem', color: 'var(--slate-400)' }}>
+                            <p className="text-sm text-slate-400">
                                 {t('sheets.tip')}
                             </p>
                         </div>
                     </div>
-                    <button onClick={onClose} style={{
-                        background: 'none',
-                        border: 'none',
-                        color: 'var(--slate-400)',
-                        cursor: 'pointer',
-                        padding: '0.5rem',
-                        borderRadius: '50%',
-                        display: 'flex',
-                        transition: 'background 0.2s'
-                    }} onMouseOver={e => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'}
-                        onMouseOut={e => e.currentTarget.style.backgroundColor = 'transparent'}
-                    >
+                    <button onClick={onClose} className="bg-transparent border-none text-slate-400 cursor-pointer p-2 flex rounded-full transition-colors hover:bg-white/5">
                         <X size={20} />
                     </button>
                 </div>
 
-                <div style={{
-                    overflowX: 'auto',
-                    borderRadius: '0.5rem',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
-                    backgroundColor: 'rgba(0, 0, 0, 0.2)'
-                }}>
-                    <table style={{ width: '100%', borderCollapse: 'collapse', tableLayout: 'fixed' }}>
+                <div className="overflow-x-auto rounded-lg border border-white/10 bg-black/20">
+                    <table className="w-full border-collapse table-fixed">
                         <thead>
                             <tr>
-                                <th style={rowNumStyle}></th>
+                                <th className="p-2 px-3 bg-primary-muted/20 text-slate-500 w-10 text-center font-medium border border-card-border text-[0.8125rem]"></th>
                                 {columns.map(col => (
-                                    <th key={col} style={headerCellStyle}>{col}</th>
+                                    <th key={col} className="p-2 px-3 bg-primary-muted/5 text-slate-400 font-semibold text-center border border-card-border text-[0.8125rem] truncate">{col}</th>
                                 ))}
                             </tr>
                             <tr>
-                                <td style={rowNumStyle}>1</td>
+                                <td className="p-2 px-3 bg-primary-muted/20 text-slate-500 text-center font-medium border border-card-border text-[0.8125rem]">1</td>
                                 {headers.map((h, i) => (
-                                    <td key={i} style={{ ...dataCellStyle, color: 'var(--primary)', fontWeight: 600 }}>{h}</td>
+                                    <td key={i} className="p-2 px-3 text-primary font-semibold border border-card-border text-[0.8125rem] truncate">{h}</td>
                                 ))}
                             </tr>
                         </thead>
                         <tbody>
                             {mockData.map((row, rowIndex) => (
                                 <tr key={rowIndex}>
-                                    <td style={rowNumStyle}>{rowIndex + 2}</td>
+                                    <td className="p-2 px-3 bg-primary-muted/20 text-slate-500 text-center font-medium border border-card-border text-[0.8125rem]">{rowIndex + 2}</td>
                                     {row.map((cell, cellIndex) => (
-                                        <td key={cellIndex} style={dataCellStyle}>{cell}</td>
+                                        <td key={cellIndex} className="p-2 px-3 text-slate-300 border border-card-border text-[0.8125rem] truncate">{cell}</td>
                                     ))}
                                 </tr>
                             ))}
@@ -158,40 +81,21 @@ export const InfoModal: React.FC<InfoModalProps> = ({ isOpen, onClose }) => {
                     </table>
                 </div>
 
-                <div style={{
-                    marginTop: '1.5rem',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '1rem'
-                }}>
-                    <div style={{
-                        display: 'flex',
-                        gap: '0.75rem',
-                        padding: '1rem',
-                        backgroundColor: 'var(--primary-muted)',
-                        border: '1px solid var(--card-border)',
-                        borderRadius: '0.75rem'
-                    }}>
-                        <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
-                        <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
+                <div className="mt-6 flex flex-col gap-4">
+                    <div className="flex gap-3 p-4 bg-primary-muted border border-card-border rounded-xl">
+                        <Info size={18} className="text-primary shrink-0" />
+                        <p className="text-sm text-slate-300 leading-relaxed">
                             <Trans i18nKey="modals.info.tonnage_tip" />
                         </p>
                     </div>
-                    <div style={{
-                        display: 'flex',
-                        gap: '0.75rem',
-                        padding: '1rem',
-                        backgroundColor: 'var(--primary-muted)',
-                        border: '1px solid var(--card-border)',
-                        borderRadius: '0.75rem'
-                    }}>
-                        <Info size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
-                        <p style={{ fontSize: '0.875rem', color: 'var(--slate-300)', lineHeight: '1.5' }}>
+                    <div className="flex gap-3 p-4 bg-primary-muted border border-card-border rounded-xl">
+                        <Info size={18} className="text-primary shrink-0" />
+                        <p className="text-sm text-slate-300 leading-relaxed">
                             <Trans i18nKey="modals.info.ai_tip" />
                         </p>
                     </div>
 
-                    <button onClick={onClose} className="btn-primary" style={{ width: '100%' }}>
+                    <button onClick={onClose} className="btn-primary w-full">
                         {t('modals.info.got_it')}
                     </button>
                 </div>

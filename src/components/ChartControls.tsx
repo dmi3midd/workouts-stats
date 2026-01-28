@@ -19,60 +19,36 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
 }) => {
     const { t } = useTranslation();
     return (
-        <div className="glass-card" style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '1.5rem',
-            marginBottom: '2rem'
-        }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <Filter size={18} style={{ color: 'var(--primary)' }} />
-                    <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>{t('controls.exercise')}</span>
+        <div className="glass-card flex flex-wrap items-center justify-between gap-6 mb-8">
+            <div className="flex items-center gap-6 flex-wrap">
+                <div className="flex items-center gap-2">
+                    <Filter size={18} className="text-primary" />
+                    <span className="text-sm font-medium text-slate-400">{t('controls.exercise')}</span>
                     <select
                         value={selectedExercise}
                         onChange={(e) => onExerciseChange(e.target.value)}
-                        style={{
-                            fontSize: '0.875rem',
-                            outline: 'none',
-                            cursor: 'pointer'
-                        }}
+                        className="text-sm outline-none cursor-pointer"
                     >
-
                         {exercises.map((ex) => (
-                            <option key={ex} value={ex} style={{ backgroundColor: 'var(--background)', color: 'var(--foreground)' }}>
+                            <option key={ex} value={ex} className="bg-background text-foreground">
                                 {ex === 'All' ? t('controls.all') : ex}
                             </option>
                         ))}
                     </select>
                 </div>
 
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <TrendingUp size={18} style={{ color: 'var(--primary)' }} />
-                    <span style={{ fontSize: '0.875rem', fontWeight: 500, color: 'var(--slate-400)' }}>{t('controls.metric')}</span>
-                    <div style={{
-                        display: 'flex',
-                        backgroundColor: 'var(--primary-muted)',
-                        borderRadius: '0.5rem',
-                        padding: '0.25rem'
-                    }}>
+                <div className="flex items-center gap-2">
+                    <TrendingUp size={18} className="text-primary" />
+                    <span className="text-sm font-medium text-slate-400">{t('controls.metric')}</span>
+                    <div className="flex bg-primary-muted rounded-lg p-1">
                         {(['volume', 'weight', 'reps'] as const).map((m) => (
                             <button
                                 key={m}
                                 onClick={() => onMetricChange(m)}
-                                style={{
-                                    padding: '0.25rem 0.75rem',
-                                    fontSize: '0.75rem',
-                                    fontWeight: 500,
-                                    borderRadius: '0.375rem',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    transition: 'all 0.2s',
-                                    backgroundColor: selectedMetric === m ? 'var(--primary)' : 'transparent',
-                                    color: selectedMetric === m ? 'var(--background)' : 'var(--slate-400)'
-                                }}
+                                className={`px-3 py-1 text-[0.75rem] font-medium rounded-md cursor-pointer transition-all ${selectedMetric === m
+                                        ? 'bg-primary text-background'
+                                        : 'bg-transparent text-slate-400 hover:text-slate-200'
+                                    }`}
                             >
                                 {t(`metrics.${m}`)}
                             </button>
@@ -81,7 +57,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                 </div>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--slate-400)', opacity: 0.5, fontSize: '0.75rem' }}>
+            <div className="flex items-center gap-2 text-slate-400 opacity-50 text-[0.75rem]">
                 <BarChart3 size={14} />
                 <span>{t('controls.live_viz')}</span>
             </div>

@@ -42,14 +42,12 @@ function App() {
       setSheetNames(names);
       setFileName(file.name);
 
-      // If multiple sheets, we don't parse immediately or we parse the first one
       const defaultSheet = names[0];
       setSelectedSheet(defaultSheet);
 
       const parsedData = await parseExcelFile(wb, defaultSheet);
       setData(parsedData);
 
-      // Auto-select first exercise
       const uniqueExercises = Array.from(new Set(parsedData.map(d => d.exercise)));
       if (uniqueExercises.length > 0) {
         setSelectedExercise(uniqueExercises[0]);
@@ -108,65 +106,30 @@ function App() {
   }, [selectedMetric]);
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <header style={{
-        borderBottom: '1px solid rgba(255,255,255,0.05)',
-        backgroundColor: 'rgba(15, 23, 42, 0.5)',
-        backdropFilter: 'blur(20px)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 50,
-        height: '5rem',
-        display: 'flex',
-        alignItems: 'center'
-      }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            <div style={{
-              width: '2.5rem',
-              height: '2.5rem',
-              backgroundColor: 'var(--primary)',
-              borderRadius: '0.75rem',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 10px 15px -3px rgba(139, 92, 246, 0.2)'
-            }}>
-              <Dumbbell style={{ color: 'white' }} size={24} />
+      <header className="border-b border-white/5 bg-[#0f172a]/50 backdrop-blur-3xl sticky top-0 z-50 h-20 flex items-center">
+        <div className="container flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_10px_15px_-3px_rgba(253,164,129,0.2)]">
+              <Dumbbell className="text-white" size={24} />
             </div>
             <div>
-              <h1 style={{ fontSize: '1.25rem', fontWeight: 700, letterSpacing: '-0.025em' }}>{t('app.title')}</h1>
-              <p style={{ fontSize: '0.75rem', color: 'var(--slate-400)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{t('app.subtitle')}</p>
+              <h1 className="text-xl font-bold tracking-tight">{t('app.title')}</h1>
+              <p className="text-[0.75rem] text-slate-400 font-medium uppercase tracking-widest">{t('app.subtitle')}</p>
             </div>
           </div>
         </div>
       </header>
 
-      <main className="container" style={{ padding: '3rem 1.5rem', flex: 1 }}>
+      <main className="container py-12 flex-1">
         {!data.length ? (
-          <div className="animate-fade-in" style={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            minHeight: '60vh',
-            textAlign: 'center',
-            maxWidth: '42rem',
-            margin: '0 auto'
-          }}>
-            <div style={{ marginBottom: '2rem' }}>
-              <h2 style={{
-                fontSize: '3.75rem',
-                fontWeight: 800,
-                letterSpacing: '-0.025em',
-                marginBottom: '1rem',
-                color: 'white',
-                fontStyle: 'normal'
-              }}>
+          <div className="animate-fade-in flex flex-col items-center justify-center min-h-[60vh] text-center max-w-2xl mx-auto">
+            <div className="mb-8">
+              <h2 className="text-6xl font-extrabold tracking-tight mb-4 text-white">
                 {t('app.hero_title')}
               </h2>
-              <p style={{ fontSize: '1.25rem', color: 'var(--slate-400)', fontWeight: 300, lineHeight: 1.6 }}>
+              <p className="text-xl text-slate-400 font-light leading-relaxed">
                 {t('app.hero_subtitle')}
               </p>
             </div>
@@ -180,21 +143,10 @@ function App() {
           </div>
         ) : (
           <div className="animate-fade-in">
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              gap: '1.5rem',
-              marginBottom: '3rem'
-            }} className="md-row">
-              <style>{`
-                @media (min-width: 768px) {
-                  .md-row { flex-direction: row !important; align-items: center !important; }
-                }
-              `}</style>
+            <div className="flex flex-col md:flex-row justify-between gap-6 mb-12 items-start md:items-center">
               <div>
-                <h2 style={{ fontSize: '1.875rem', fontWeight: 700, color: 'white', marginBottom: '0.5rem' }}>{t('app.performance_title')}</h2>
-                <p style={{ color: 'var(--slate-400)' }}>{t('app.performance_subtitle')}</p>
+                <h2 className="text-3xl font-bold text-white mb-2">{t('app.performance_title')}</h2>
+                <p className="text-slate-400">{t('app.performance_subtitle')}</p>
               </div>
               <FileUploader
                 onFileSelect={handleFileSelect}
@@ -219,11 +171,7 @@ function App() {
               onMetricChange={setSelectedMetric}
             />
 
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
-              gap: '2rem'
-            }}>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <BarChartView
                 data={analyticsData}
                 metric={barMetric as any}
@@ -236,37 +184,37 @@ function App() {
               />
             </div>
 
-            <section className="glass-card" style={{ marginTop: '3rem', overflow: 'hidden', padding: 0 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 1.5rem 1rem' }}>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: 600 }}>{t('preview.title')}</h3>
-                <div style={{ color: 'var(--slate-500)', fontSize: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+            <section className="glass-card mt-12 overflow-hidden p-0">
+              <div className="flex justify-between items-center px-6 pt-6 pb-4">
+                <h3 className="text-lg font-semibold">{t('preview.title')}</h3>
+                <div className="text-slate-500 text-xs flex items-center gap-1">
                   <Info size={14} /> {t('preview.tip')}
                 </div>
               </div>
-              <div style={{ overflowX: 'auto' }}>
-                <table>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
                   <thead>
                     <tr>
-                      <th>{t('preview.headers.date')}</th>
-                      <th>{t('preview.headers.exercise')}</th>
-                      <th>{t('preview.headers.sets')}</th>
-                      <th>{t('preview.headers.reps')}</th>
-                      <th>{t('preview.headers.weight')}</th>
-                      <th>{t('preview.headers.volume')}</th>
+                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.date')}</th>
+                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.exercise')}</th>
+                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.sets')}</th>
+                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.reps')}</th>
+                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.weight')}</th>
+                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.volume')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {filteredData.slice(0, 50).map((row, i) => (
                       <tr key={i}
                         onClick={() => setSelectedWorkoutForDetail(row)}
-                        style={{ cursor: 'pointer' }}
+                        className="cursor-pointer hover:bg-white/2 transition-colors"
                       >
-                        <td>{row.date}</td>
-                        <td style={{ fontWeight: 500, color: 'white' }}>{row.exercise}</td>
-                        <td>{row.sets}</td>
-                        <td>{row.reps}</td>
-                        <td>{row.weight.toFixed(1)}</td>
-                        <td style={{ color: 'var(--primary)', fontWeight: 700 }}>{row.volume}</td>
+                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.date}</td>
+                        <td className="py-3 px-4 border-b border-white/5 text-sm font-medium text-white">{row.exercise}</td>
+                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.sets}</td>
+                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.reps}</td>
+                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.weight.toFixed(1)}</td>
+                        <td className="py-3 px-4 border-b border-white/5 text-sm text-primary font-bold">{row.volume}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -277,8 +225,8 @@ function App() {
         )}
       </main>
 
-      <footer className="container" style={{ padding: '3rem 0', marginTop: '3rem', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
-        <p style={{ fontSize: '0.875rem', color: 'var(--slate-500)', fontStyle: 'italic' }}>{t('app.footer')}</p>
+      <footer className="container py-12 mt-12 border-t border-white/5 text-center">
+        <p className="text-sm text-slate-500 italic">{t('app.footer')}</p>
       </footer>
 
       <WorkoutDetailModal

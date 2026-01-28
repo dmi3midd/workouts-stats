@@ -1,114 +1,72 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
 
-:root {
-  --background: #181A2F;
-  --foreground: #f8fafc;
-  --card: rgba(36, 46, 73, 0.6);
-  --card-border: rgba(55, 65, 92, 0.5);
-  --primary: #FDA481;
-  --primary-hover: #ffbca1;
-  --primary-muted: rgba(253, 164, 129, 0.15);
-  --danger: #B4182D;
-  --accent-maroon: #54162B;
-  --radius: 0.75rem;
+@theme {
+  --color-background: #181A2F;
+  --color-foreground: #f8fafc;
+  --color-card: rgba(36, 46, 73, 0.6);
+  --color-card-border: rgba(55, 65, 92, 0.5);
+  --color-primary: #FDA481;
+  --color-primary-hover: #ffbca1;
+  --color-primary-muted: rgba(253, 164, 129, 0.15);
+  --color-danger: #B4182D;
+  --color-accent-maroon: #54162B;
+
+  --radius-custom: 0.75rem;
+
   --font-sans: 'Outfit', 'Inter', system-ui, -apple-system, sans-serif;
-  --slate-400: #94a3b8;
-  --slate-500: #64748b;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@layer base {
+  * {
+    @apply box-border m-0 p-0;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans min-h-screen antialiased;
+  }
 }
 
-body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-}
+@layer components {
+  .container {
+    @apply max-w-[1200px] mx-auto px-6;
+  }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1.5rem;
-}
+  .glass {
+    @apply bg-card backdrop-blur-md border border-card-border rounded-custom;
+  }
 
-.glass {
-  background: var(--card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-}
+  .glass-card {
+    @apply bg-card backdrop-blur-md border border-card-border rounded-custom p-6 shadow-lg;
+  }
 
-.glass-card {
-  background: var(--card);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-}
+  .btn-primary {
+    @apply bg-primary text-white py-2 px-4 rounded-lg border-none cursor-pointer font-medium transition-all hover:bg-primary-hover;
+  }
 
-.btn-primary {
-  background-color: var(--primary);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s;
-}
+  .chart-container {
+    @apply bg-card backdrop-blur-md border border-card-border rounded-custom p-6 h-[400px];
+  }
 
-.btn-primary:hover {
-  background-color: var(--primary-hover);
-}
+  select,
+  input {
+    @apply bg-white/5 border border-card-border text-white p-2 rounded-lg;
+  }
 
-.chart-container {
-  background: var(--card);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius);
-  padding: 1.5rem;
-  height: 400px;
-}
+  table {
+    @apply w-full border-collapse;
+  }
 
-select,
-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--card-border);
-  color: white;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-}
+  th {
+    @apply text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border;
+  }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
+  td {
+    @apply py-3 px-4 border-b border-white/5 text-sm;
+  }
 
-th {
-  text-align: left;
-  padding: 0.75rem 1rem;
-  color: var(--slate-400);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--card-border);
-}
-
-td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  font-size: 0.875rem;
-}
-
-tr:hover {
-  background: rgba(255, 255, 255, 0.02);
+  tr {
+    @apply hover:bg-white/2;
+  }
 }
 
 @keyframes fadeIn {
