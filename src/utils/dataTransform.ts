@@ -49,7 +49,29 @@ export const getExerciseStats = (data: WorkoutEntry[]): ExerciseStats[] => {
     }));
 };
 
+
 export const filterByExercise = (data: WorkoutEntry[], exercise: string): WorkoutEntry[] => {
     if (!exercise || exercise === 'All') return data;
     return data.filter((entry) => entry.exercise === exercise);
 };
+
+export const truncateToSets = (entry: WorkoutEntry, count: number): WorkoutEntry => {
+    if (!entry.details || entry.details.length <= count) return entry;
+
+    const truncatedDetails = entry.details.slice(0, count);
+    const sets = truncatedDetails.length;
+    const reps = truncatedDetails.reduce((acc, curr) => acc + curr.reps, 0);
+    const volume = truncatedDetails.reduce((acc, curr) => acc + (curr.weight * curr.reps), 0);
+    const totalWeight = truncatedDetails.reduce((acc, curr) => acc + curr.weight, 0);
+    const weight = totalWeight / sets || 0;
+
+    return {
+        ...entry,
+        sets,
+        reps,
+        weight,
+        volume,
+        details: truncatedDetails,
+    };
+};
+

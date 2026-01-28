@@ -6,7 +6,7 @@ import { LineChartView } from './components/LineChartView';
 import { WorkoutDetailModal } from './components/WorkoutDetailModal';
 import type { WorkoutEntry } from './types/workout';
 import { parseExcelFile, readWorkbook } from './utils/parseExcel';
-import { groupByDate, filterByExercise } from './utils/dataTransform';
+import { groupByDate, filterByExercise, truncateToSets } from './utils/dataTransform';
 import { Dumbbell, Info } from 'lucide-react';
 import { SheetSelector } from './components/SheetSelector';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
@@ -25,6 +25,7 @@ function App() {
   const [workbook, setWorkbook] = useState<XLSX.WorkBook | null>(null);
   const [sheetNames, setSheetNames] = useState<string[]>([]);
   const [selectedSheet, setSelectedSheet] = useState<string | "__all__">("");
+  const [selectedSetsCount, setSelectedSetsCount] = useState('all');
 
   const handleFileSelect = async (file: File) => {
     const MAX_SIZE = 6 * 1024 * 1024; // 6MB
@@ -85,19 +86,27 @@ function App() {
     setSelectedSheet("");
     setFileName(null);
     setSelectedExercise('');
+    setSelectedSetsCount('all');
   };
 
   const exercises = useMemo(() => {
     return Array.from(new Set(data.map((d) => d.exercise)));
   }, [data]);
 
+  const processedData = useMemo(() => {
+    if (selectedSetsCount === 'all') return data;
+    const count = parseInt(selectedSetsCount);
+    return data.map(entry => truncateToSets(entry, count));
+  }, [data, selectedSetsCount]);
+
   const filteredData = useMemo(() => {
-    return filterByExercise(data, selectedExercise);
-  }, [data, selectedExercise]);
+    return filterByExercise(processedData, selectedExercise);
+  }, [processedData, selectedExercise]);
 
   const analyticsData = useMemo(() => {
     return groupByDate(filteredData);
   }, [filteredData]);
+
 
   const barMetric = useMemo(() => {
     if (selectedMetric === 'volume') return 'totalVolume';
@@ -169,6 +178,8 @@ function App() {
               onExerciseChange={setSelectedExercise}
               selectedMetric={selectedMetric}
               onMetricChange={setSelectedMetric}
+              selectedSetsCount={selectedSetsCount}
+              onSetsCountChange={setSelectedSetsCount}
             />
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

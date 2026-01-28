@@ -8,6 +8,8 @@ interface ChartControlsProps {
     onExerciseChange: (exercise: string) => void;
     selectedMetric: 'weight' | 'volume' | 'reps';
     onMetricChange: (metric: 'weight' | 'volume' | 'reps') => void;
+    selectedSetsCount: string;
+    onSetsCountChange: (count: string) => void;
 }
 
 export const ChartControls: React.FC<ChartControlsProps> = ({
@@ -16,8 +18,12 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
     onExerciseChange,
     selectedMetric,
     onMetricChange,
+    selectedSetsCount,
+    onSetsCountChange,
 }) => {
     const { t } = useTranslation();
+    const setOptions = ['all', '1', '2', '3', '4'];
+
     return (
         <div className="glass-card flex flex-wrap items-center justify-between gap-6 mb-8">
             <div className="flex items-center gap-6 flex-wrap">
@@ -38,6 +44,22 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                 </div>
 
                 <div className="flex items-center gap-2">
+                    <Filter size={18} className="text-primary" />
+                    <span className="text-sm font-medium text-slate-400">{t('controls.sets')}</span>
+                    <select
+                        value={selectedSetsCount}
+                        onChange={(e) => onSetsCountChange(e.target.value)}
+                        className="text-sm outline-none cursor-pointer"
+                    >
+                        {setOptions.map((opt) => (
+                            <option key={opt} value={opt} className="bg-background text-foreground">
+                                {opt === 'all' ? t('controls.all_sets') : opt}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="flex items-center gap-2">
                     <TrendingUp size={18} className="text-primary" />
                     <span className="text-sm font-medium text-slate-400">{t('controls.metric')}</span>
                     <div className="flex bg-primary-muted rounded-lg p-1">
@@ -46,8 +68,8 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                                 key={m}
                                 onClick={() => onMetricChange(m)}
                                 className={`px-3 py-1 text-[0.75rem] font-medium rounded-md cursor-pointer transition-all ${selectedMetric === m
-                                        ? 'bg-primary text-background'
-                                        : 'bg-transparent text-slate-400 hover:text-slate-200'
+                                    ? 'bg-primary text-background'
+                                    : 'bg-transparent text-slate-400 hover:text-slate-200'
                                     }`}
                             >
                                 {t(`metrics.${m}`)}
@@ -64,3 +86,4 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
         </div>
     );
 };
+

@@ -14,7 +14,9 @@
         "all": "All",
         "overall": "Overall",
         "progress": "Progress",
-        "live_viz": "Live visualization based on filtered data"
+        "live_viz": "Live visualization based on filtered data",
+        "sets": "Sets:",
+        "all_sets": "All Sets"
     },
     "metrics": {
         "volume": "Volume",
