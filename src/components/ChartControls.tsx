@@ -1,5 +1,5 @@
-import React from 'react';
-import { Filter, BarChart3, TrendingUp } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Filter, BarChart3, TrendingUp, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 interface ChartControlsProps {
@@ -22,41 +22,73 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
     onSetsCountChange,
 }) => {
     const { t } = useTranslation();
+    const [isExOpen, setIsExOpen] = useState(false);
+    const exRef = useRef<HTMLDivElement>(null);
+
     const setOptions = ['all', '1', '2', '3', '4'];
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (exRef.current && !exRef.current.contains(event.target as Node)) {
+                setIsExOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
     return (
-        <div className="glass-card flex flex-wrap items-center justify-between gap-6 mb-8">
+        <div className="glass-card flex flex-wrap items-center justify-between gap-6 mb-8 relative z-50">
             <div className="flex items-center gap-6 flex-wrap">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 relative" ref={exRef}>
                     <Filter size={18} className="text-primary" />
                     <span className="text-sm font-medium text-slate-400">{t('controls.exercise')}</span>
-                    <select
-                        value={selectedExercise}
-                        onChange={(e) => onExerciseChange(e.target.value)}
-                        className="text-sm outline-none cursor-pointer"
+                    <button
+                        onClick={() => setIsExOpen(!isExOpen)}
+                        className="flex items-center gap-2 text-sm bg-white/5 border border-card-border rounded-lg px-3 py-1.5 hover:bg-white/10 transition-all text-white min-w-[180px] justify-between group cursor-pointer"
                     >
-                        {exercises.map((ex) => (
-                            <option key={ex} value={ex} className="bg-background text-foreground">
-                                {ex === 'All' ? t('controls.all') : ex}
-                            </option>
-                        ))}
-                    </select>
+                        <span className="truncate max-w-[150px]">
+                            {selectedExercise === 'All' ? t('controls.all') : selectedExercise}
+                        </span>
+                        <ChevronDown size={14} className={`text-primary transition-transform duration-200 ${isExOpen ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {isExOpen && (
+                        <div className="absolute top-full left-0 mt-2 w-full min-w-[220px] bg-[#1a1c31]/85 backdrop-blur-3xl z-[100] shadow-2xl py-2 max-h-[300px] overflow-y-auto animate-fade-in border border-white/10 rounded-xl">
+                            {exercises.map((ex) => (
+                                <button
+                                    key={ex}
+                                    onClick={() => {
+                                        onExerciseChange(ex);
+                                        setIsExOpen(false);
+                                    }}
+                                    className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-primary/10 cursor-pointer ${selectedExercise === ex ? 'text-primary font-bold bg-white/5' : 'text-slate-300'
+                                        }`}
+                                >
+                                    {ex === 'All' ? t('controls.all') : ex}
+                                </button>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex items-center gap-2">
                     <Filter size={18} className="text-primary" />
                     <span className="text-sm font-medium text-slate-400">{t('controls.sets')}</span>
-                    <select
-                        value={selectedSetsCount}
-                        onChange={(e) => onSetsCountChange(e.target.value)}
-                        className="text-sm outline-none cursor-pointer"
-                    >
+                    <div className="flex bg-primary-muted rounded-lg p-1">
                         {setOptions.map((opt) => (
-                            <option key={opt} value={opt} className="bg-background text-foreground">
+                            <button
+                                key={opt}
+                                onClick={() => onSetsCountChange(opt)}
+                                className={`px-3 py-1 text-[0.75rem] font-medium rounded-md cursor-pointer transition-all ${selectedSetsCount === opt
+                                    ? 'bg-primary text-background'
+                                    : 'bg-transparent text-slate-400 hover:text-slate-200'
+                                    }`}
+                            >
                                 {opt === 'all' ? t('controls.all_sets') : opt}
-                            </option>
+                            </button>
                         ))}
-                    </select>
+                    </div>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -77,6 +109,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                         ))}
                     </div>
                 </div>
+
             </div>
 
             <div className="flex items-center gap-2 text-slate-400 opacity-50 text-[0.75rem]">
