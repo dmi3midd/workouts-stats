@@ -7,9 +7,12 @@ import { WorkoutDetailModal } from './components/WorkoutDetailModal';
 import type { WorkoutEntry } from './types/workout';
 import { parseExcelFile, readWorkbook } from './utils/parseExcel';
 import { groupByDate, filterByExercise, truncateToSets } from './utils/dataTransform';
-import { Dumbbell, Info } from 'lucide-react';
 import { SheetSelector } from './components/SheetSelector';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { Header } from './components/Header';
+import { Footer } from './components/Footer';
+import { Hero } from './components/Hero';
+import { WorkoutTable } from './components/WorkoutTable';
 import { useTranslation } from 'react-i18next';
 import * as XLSX from 'xlsx';
 
@@ -116,40 +119,17 @@ function App() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      {/* Header */}
-      <header className="border-b border-white/5 bg-[#0f172a]/50 backdrop-blur-3xl sticky top-0 z-50 h-20 flex items-center">
-        <div className="container flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-[0_10px_15px_-3px_rgba(253,164,129,0.2)]">
-              <Dumbbell className="text-white" size={24} />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold tracking-tight">{t('app.title')}</h1>
-              <p className="text-[0.75rem] text-slate-400 font-medium uppercase tracking-widest">{t('app.subtitle')}</p>
-            </div>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       <main className="container py-12 flex-1">
         {!data.length ? (
-          <div className="animate-fade-in flex flex-col items-center justify-center min-h-[60vh] text-center max-w-2xl mx-auto">
-            <div className="mb-8">
-              <h2 className="text-6xl font-extrabold tracking-tight mb-4 text-white">
-                {t('app.hero_title')}
-              </h2>
-              <p className="text-xl text-slate-400 font-light leading-relaxed">
-                {t('app.hero_subtitle')}
-              </p>
-            </div>
-            <FileUploader
-              onFileSelect={handleFileSelect}
-              isLoading={isLoading}
-              error={error}
-              onClear={clearData}
-              fileName={fileName}
-            />
-          </div>
+          <Hero
+            onFileSelect={handleFileSelect}
+            isLoading={isLoading}
+            error={error}
+            onClear={clearData}
+            fileName={fileName}
+          />
         ) : (
           <div className="animate-fade-in">
             <div className="flex flex-col md:flex-row justify-between gap-6 mb-12 items-start md:items-center">
@@ -195,50 +175,15 @@ function App() {
               />
             </div>
 
-            <section className="glass-card mt-12 overflow-hidden p-0">
-              <div className="flex justify-between items-center px-6 pt-6 pb-4">
-                <h3 className="text-lg font-semibold">{t('preview.title')}</h3>
-                <div className="text-slate-500 text-xs flex items-center gap-1">
-                  <Info size={14} /> {t('preview.tip')}
-                </div>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr>
-                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.date')}</th>
-                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.exercise')}</th>
-                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.sets')}</th>
-                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.reps')}</th>
-                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.weight')}</th>
-                      <th className="text-left py-3 px-4 text-slate-400 text-xs uppercase tracking-wider border-b border-card-border">{t('preview.headers.volume')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredData.slice(0, 50).map((row, i) => (
-                      <tr key={i}
-                        onClick={() => setSelectedWorkoutForDetail(row)}
-                        className="cursor-pointer hover:bg-white/2 transition-colors"
-                      >
-                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.date}</td>
-                        <td className="py-3 px-4 border-b border-white/5 text-sm font-medium text-white">{row.exercise}</td>
-                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.sets}</td>
-                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.reps}</td>
-                        <td className="py-3 px-4 border-b border-white/5 text-sm">{row.weight.toFixed(1)}</td>
-                        <td className="py-3 px-4 border-b border-white/5 text-sm text-primary font-bold">{row.volume}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </section>
+            <WorkoutTable
+              data={filteredData}
+              onRowClick={setSelectedWorkoutForDetail}
+            />
           </div>
         )}
       </main>
 
-      <footer className="container py-12 mt-12 border-t border-white/5 text-center">
-        <p className="text-sm text-slate-500 italic">{t('app.footer')}</p>
-      </footer>
+      <Footer />
 
       <WorkoutDetailModal
         workout={selectedWorkoutForDetail}
@@ -251,3 +196,4 @@ function App() {
 }
 
 export default App;
+
