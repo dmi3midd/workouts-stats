@@ -1,27 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Filter, BarChart3, TrendingUp, ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useWorkoutStore } from '../store/useWorkoutStore';
 
-interface ChartControlsProps {
-    exercises: string[];
-    selectedExercise: string;
-    onExerciseChange: (exercise: string) => void;
-    selectedMetric: 'weight' | 'volume' | 'reps';
-    onMetricChange: (metric: 'weight' | 'volume' | 'reps') => void;
-    selectedSetsCount: string;
-    onSetsCountChange: (count: string) => void;
-}
-
-export const ChartControls: React.FC<ChartControlsProps> = ({
-    exercises,
-    selectedExercise,
-    onExerciseChange,
-    selectedMetric,
-    onMetricChange,
-    selectedSetsCount,
-    onSetsCountChange,
-}) => {
+export const ChartControls: React.FC = () => {
     const { t } = useTranslation();
+    const {
+        data,
+        selectedExercise, setSelectedExercise,
+        selectedMetric, setSelectedMetric,
+        selectedSetsCount, setSelectedSetsCount
+    } = useWorkoutStore();
+
+    const exercises = React.useMemo(() => {
+        return Array.from(new Set(data.map((d) => d.exercise)));
+    }, [data]);
+
     const [isExOpen, setIsExOpen] = useState(false);
     const exRef = useRef<HTMLDivElement>(null);
 
@@ -59,7 +53,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                                 <button
                                     key={ex}
                                     onClick={() => {
-                                        onExerciseChange(ex);
+                                        setSelectedExercise(ex);
                                         setIsExOpen(false);
                                     }}
                                     className={`w-full text-left px-4 py-2.5 text-sm transition-colors hover:bg-primary/10 cursor-pointer ${selectedExercise === ex ? 'text-primary font-bold bg-white/5' : 'text-slate-300'
@@ -79,7 +73,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                         {setOptions.map((opt) => (
                             <button
                                 key={opt}
-                                onClick={() => onSetsCountChange(opt)}
+                                onClick={() => setSelectedSetsCount(opt)}
                                 className={`px-3 py-1 text-[0.75rem] font-medium rounded-md cursor-pointer transition-all ${selectedSetsCount === opt
                                     ? 'bg-primary text-background'
                                     : 'bg-transparent text-slate-400 hover:text-slate-200'
@@ -98,7 +92,7 @@ export const ChartControls: React.FC<ChartControlsProps> = ({
                         {(['volume', 'weight', 'reps'] as const).map((m) => (
                             <button
                                 key={m}
-                                onClick={() => onMetricChange(m)}
+                                onClick={() => setSelectedMetric(m)}
                                 className={`px-3 py-1 text-[0.75rem] font-medium rounded-md cursor-pointer transition-all ${selectedMetric === m
                                     ? 'bg-primary text-background'
                                     : 'bg-transparent text-slate-400 hover:text-slate-200'

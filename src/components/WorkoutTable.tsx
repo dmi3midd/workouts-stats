@@ -1,14 +1,21 @@
+import { useMemo } from 'react';
 import { Info } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import type { WorkoutEntry } from '../types/workout';
+import { useWorkoutStore } from '../store/useWorkoutStore';
+import { useUIStore } from '../store/useUIStore';
+import { filterByExercise, truncateToSets } from '../utils/dataTransform';
 
-interface WorkoutTableProps {
-    data: WorkoutEntry[];
-    onRowClick: (workout: WorkoutEntry) => void;
-}
-
-export const WorkoutTable = ({ data, onRowClick }: WorkoutTableProps) => {
+export const WorkoutTable = () => {
     const { t } = useTranslation();
+    const { data, selectedExercise, selectedSetsCount } = useWorkoutStore();
+    const { setSelectedWorkoutForDetail } = useUIStore();
+
+    const filteredData = useMemo(() => {
+        const processed = selectedSetsCount === 'all'
+            ? data
+            : data.map(entry => truncateToSets(entry, parseInt(selectedSetsCount)));
+        return filterByExercise(processed, selectedExercise);
+    }, [data, selectedExercise, selectedSetsCount]);
 
     return (
         <section className="glass-card mt-12 overflow-hidden p-0">
@@ -31,9 +38,9 @@ export const WorkoutTable = ({ data, onRowClick }: WorkoutTableProps) => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.slice(0, 50).map((row, i) => (
+                        {filteredData.slice(0, 50).map((row, i) => (
                             <tr key={i}
-                                onClick={() => onRowClick(row)}
+                                onClick={() => setSelectedWorkoutForDetail(row)}
                                 className="cursor-pointer hover:bg-white/2 transition-colors"
                             >
                                 <td className="py-3 px-4 border-b border-white/5 text-sm">{row.date}</td>

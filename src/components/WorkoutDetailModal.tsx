@@ -1,19 +1,18 @@
 import React from 'react';
 import { X } from 'lucide-react';
-import type { WorkoutEntry } from '../types/workout';
 import { useTranslation } from 'react-i18next';
+import { useUIStore } from '../store/useUIStore';
 
-interface WorkoutDetailModalProps {
-    workout: WorkoutEntry | null;
-    onClose: () => void;
-}
-
-export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout, onClose }) => {
+export const WorkoutDetailModal: React.FC = () => {
     const { t } = useTranslation();
+    const { selectedWorkoutForDetail: workout, setSelectedWorkoutForDetail } = useUIStore();
+
     if (!workout) return null;
 
+    const handleClose = () => setSelectedWorkoutForDetail(null);
+
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#181A2f]/80 backdrop-blur-sm" onClick={onClose}>
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#181A2f]/80 backdrop-blur-sm" onClick={handleClose}>
             <div
                 className="glass-card animate-fade-in w-full max-w-[500px] max-h-[90vh] overflow-y-auto relative"
                 onClick={(e) => e.stopPropagation()}
@@ -25,7 +24,7 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
                         </h2>
                         <p className="text-sm text-slate-400">{workout.date}</p>
                     </div>
-                    <button onClick={onClose} className="bg-transparent border-none text-slate-400 cursor-pointer p-2 flex rounded-full transition-colors hover:bg-white/5">
+                    <button onClick={handleClose} className="bg-transparent border-none text-slate-400 cursor-pointer p-2 flex rounded-full transition-colors hover:bg-white/5">
                         <X size={20} />
                     </button>
                 </div>
@@ -69,7 +68,7 @@ export const WorkoutDetailModal: React.FC<WorkoutDetailModalProps> = ({ workout,
                 </div>
 
                 <div className="mt-8 text-center">
-                    <button onClick={onClose} className="btn-primary w-full">
+                    <button onClick={handleClose} className="btn-primary w-full">
                         Done
                     </button>
                 </div>

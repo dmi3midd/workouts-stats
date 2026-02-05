@@ -1,16 +1,16 @@
 import { useTranslation } from 'react-i18next';
 import { FileUploader } from './FileUploader';
+import { useWorkoutStore } from '../store/useWorkoutStore';
+import { useUIStore } from '../store/useUIStore';
 
-interface HeroProps {
-    onFileSelect: (file: File) => void;
-    isLoading: boolean;
-    error: string | null;
-    onClear: () => void;
-    fileName: string | null;
-}
-
-export const Hero = ({ onFileSelect, isLoading, error, onClear, fileName }: HeroProps) => {
+export const Hero = () => {
     const { t } = useTranslation();
+    const { clearData, loadFile } = useWorkoutStore();
+    const { isLoading, setIsLoading, error, setError, fileName, setFileName } = useUIStore();
+
+    const handleFileSelect = (file: File) => {
+        loadFile(file, t, () => setIsLoading(true), () => setIsLoading(false), setError, setFileName);
+    };
 
     return (
         <div className="animate-fade-in flex flex-col items-center justify-center min-h-[60vh] text-center max-w-2xl mx-auto">
@@ -23,10 +23,10 @@ export const Hero = ({ onFileSelect, isLoading, error, onClear, fileName }: Hero
                 </p>
             </div>
             <FileUploader
-                onFileSelect={onFileSelect}
+                onFileSelect={handleFileSelect}
                 isLoading={isLoading}
                 error={error}
-                onClear={onClear}
+                onClear={clearData}
                 fileName={fileName}
             />
         </div>
